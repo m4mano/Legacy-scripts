@@ -22,7 +22,7 @@ start|START|Start)
  
 usradmin_id_chk() {
 uid=`id -u usradmin`
-        if [ "$uid" = 06932 ]; then
+        if [ "$uid" = 06932 ]; then #this UID could be incorrect
              echo "The usradmin ID is now available" >> /tmp/${DATE_T}_apache_startstop.log
                                         return 1
                 else
