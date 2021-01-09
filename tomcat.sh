@@ -20,17 +20,17 @@ start|START|Start)
  
 #ID Availability Check
  
-webusradmin_id_chk() {
-uid=`id -u webusradmin`
+usradmin_id_chk() {
+uid=`id -u usradmin`
         if [ "$uid" = 06932 ]; then
-             echo "The webusradmin ID is now available" >> /tmp/${DATE_T}_apache_startstop.log
+             echo "The usradmin ID is now available" >> /tmp/${DATE_T}_apache_startstop.log
                                         return 1
                 else
-                                          echo "The webusradmin ID is still not yet available" >> /tmp/${DATE_T}_apache_startstop.log
+                                          echo "The usradmin ID is still not yet available" >> /tmp/${DATE_T}_apache_startstop.log
                 return 0
 fi
 }
-while webusradmin_id_chk
+while usradmin_id_chk
 do
 sleep 20
 done
@@ -39,7 +39,7 @@ done
 {
 for apache in `find /app/*/bin/apachectl* -type f`
 do
-/bin/su webusradmin -c "${apache} start &"
+/bin/su usradmin -c "${apache} start &"
 done
 } 2>&1 | tee -a /tmp/${DATE_T}_apache_startstop.log
 touch /var/lock/subsys/apache
@@ -48,7 +48,7 @@ touch /var/lock/subsys/apache
 {
         for tomcat in `find /app/tomcat*/*/bin/startup.sh -type f`
                 do
-                /bin/su webusradmin -c "${tomcat} &"
+                /bin/su usradmin -c "${tomcat} &"
                 done
                                 } 2>&1 | tee -a /tmp/${DATE_T}_apache_startstop.log
 touch /var/lock/subsys/tomcat
@@ -60,7 +60,7 @@ stop|STOP|Stop)
 {
 for apache in `find /app/*/bin/apachectl* -type f`
 do
-/bin/su webusradmin -c "${apache} stop &"
+/bin/su usradmin -c "${apache} stop &"
 done
 } 2>&1 | tee -a /tmp/${DATE_T}_apache_startstop.log
 rm -f /var/lock/subsys/apache
@@ -68,7 +68,7 @@ rm -f /var/lock/subsys/apache
 {
 for tomcat in `find /app/tomcat*/*/bin/shutdown.sh -type f`
 do
-/bin/su webusradmin -c "${tomcat} &"
+/bin/su usradmin -c "${tomcat} &"
 done
 } 2>&1 | tee -a /tmp/${DATE_T}_apache_startstop.log
 rm -f /var/lock/subsys/tomcat
